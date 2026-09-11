@@ -14,7 +14,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "sprites": "node scripts/preview-sprites.mjs",
-    "deploy": "npm run build && gh-pages -d dist -m \"deploy: %s\""
+    "deploy": "npm run build && gh-pages -d dist --dotfiles -m \"deploy: %s\""
   },
   "devDependencies": {
     "gh-pages": "6.3.0",
