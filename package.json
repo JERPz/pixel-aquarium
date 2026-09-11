@@ -1,0 +1,23 @@
+{
+  "name": "pixel-aquarium",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Draw a fish, release it into a living 8-bit tank.",
+  "homepage": "https://jerpz.github.io/pixel-aquarium/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JERPz/pixel-aquarium.git"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "sprites": "node scripts/preview-sprites.mjs",
+    "deploy": "npm run build && gh-pages -d dist -m \"deploy: %s\""
+  },
+  "devDependencies": {
+    "gh-pages": "6.3.0",
+    "vite": "5.4.10"
+  }
+}
