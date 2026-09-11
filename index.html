@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b1026" />
+    <meta name="description" content="Draw a fish in a 16x16 pixel editor, then watch it live in your tank." />
+    <link rel="icon" type="image/png" href="./favicon.png" />
+    <title>Pixel Aquarium</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" crossorigin src="./assets/index-B8lGt0DC.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-CHPwV-rf.css">
+  </head>
+  <body>
+    <a class="skiplink" href="#main">Skip to content</a>
+
+    <div class="shell">
+      <!-- ===================== console top rail ===================== -->
+      <header class="rail">
+        <p class="wordmark" aria-label="Pixel Aquarium">
+          <span class="wordmark__a">PIXEL</span><span class="wordmark__b">AQUARIUM</span>
+        </p>
+
+        <nav class="tabs" aria-label="Screens">
+          <button class="tab" type="button" data-goto="tank" aria-current="page">Tank</button>
+          <button class="tab" type="button" data-goto="designer">Draw a fish</button>
+        </nav>
+
+        <p class="purse" id="purse">
+          <span class="purse__coin" aria-hidden="true"></span>
+          <span class="purse__n" id="purse-count" aria-label="Coins">0</span>
+        </p>
+      </header>
+
+      <main id="main">
+        <!-- ======================= screen: tank ======================= -->
+        <section class="screen" id="screen-tank" aria-labelledby="tank-h">
+          <h2 class="sr-only" id="tank-h">Your aquarium</h2>
+
+          <div class="tank">
+            <div class="tank__glass">
+              <canvas
+                id="tank-canvas"
+                tabindex="0"
+                aria-label="Aquarium. Click the water to drop food, click a fish to open its card. Use arrow keys to move the pointer, Enter to act."
+              ></canvas>
+
+              <p class="tank__empty" id="tank-empty" hidden>
+                Nothing swimming yet.<br />
+                <button class="btn btn--go" type="button" data-goto="designer">
+                  Draw your first fish
+                </button>
+              </p>
+
+              <output class="toast" id="toast" aria-live="polite"></output>
+            </div>
+
+            <div class="dock">
+              <div class="dock__modes" role="radiogroup" aria-label="Tank mode">
+                <button
+                  class="mode"
+                  type="button"
+                  role="radio"
+                  aria-checked="true"
+                  data-mode="feed"
+                >
+                  Feed
+                </button>
+                <button class="mode" type="button" role="radio" aria-checked="false" data-mode="decorate">
+                  Decorate
+                </button>
+                <button class="mode" type="button" data-open="shop" aria-haspopup="dialog">
+                  Shop
+                </button>
+              </div>
+
+              <p class="dock__hint" id="dock-hint">Click the water to drop food.</p>
+
+              <!-- decorate mode: item tray -->
+              <div class="tray" id="tray" hidden>
+                <ul class="tray__list" id="tray-list" aria-label="Owned decorations"></ul>
+                <div class="tray__sel" id="tray-sel" hidden>
+                  <span class="tray__selname" id="tray-selname"></span>
+                  <button class="btn btn--tiny" type="button" data-sel="flip">Flip</button>
+                  <button class="btn btn--tiny" type="button" data-sel="turn">Turn</button>
+                  <button class="btn btn--tiny" type="button" data-sel="front">Front</button>
+                  <button class="btn btn--tiny" type="button" data-sel="back">Back</button>
+                  <button class="btn btn--tiny btn--warn" type="button" data-sel="remove">
+                    Remove
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================== screen: designer ==================== -->
+        <section class="screen" id="screen-designer" aria-labelledby="designer-h" hidden>
+          <h2 class="sr-only" id="designer-h">Fish designer</h2>
+
+          <div class="designer">
+            <!-- drawing stage -->
+            <div class="stage">
+              <div class="toolrail" role="toolbar" aria-label="Drawing tools">
+                <button class="tool" type="button" data-tool="pencil" aria-pressed="true">
+                  <svg class="ico" viewBox="0 0 8 8" aria-hidden="true" focusable="false">
+                    <rect x="5" y="0" width="3" height="2" />
+                    <rect x="4" y="1" width="3" height="2" />
+                    <rect x="3" y="2" width="3" height="2" />
+                    <rect x="2" y="3" width="3" height="2" />
+                    <rect x="1" y="4" width="3" height="2" />
+                    <rect x="0" y="6" width="2" height="2" />
+                  </svg>
+                  <span class="tool__t">Pencil</span>
+                  <span class="tool__k" aria-hidden="true">B</span>
+                </button>
+
+                <button class="tool" type="button" data-tool="eraser" aria-pressed="false">
+                  <svg class="ico" viewBox="0 0 8 8" aria-hidden="true" focusable="false">
+                    <rect x="3" y="0" width="5" height="3" />
+                    <rect x="1" y="2" width="5" height="3" />
+                    <rect x="0" y="4" width="4" height="4" />
+                  </svg>
+                  <span class="tool__t">Eraser</span>
+                  <span class="tool__k" aria-hidden="true">E</span>
+                </button>
+
+                <button class="tool" type="button" data-tool="fill" aria-pressed="false">
+                  <svg class="ico" viewBox="0 0 8 8" aria-hidden="true" focusable="false">
+                    <rect x="6" y="0" width="1" height="3" />
+                    <rect x="1" y="2" width="6" height="1" />
+                    <rect x="0" y="3" width="8" height="3" />
+                    <rect x="2" y="6" width="4" height="1" />
+                    <rect x="3" y="7" width="2" height="1" />
+                  </svg>
+                  <span class="tool__t">Fill</span>
+                  <span class="tool__k" aria-hidden="true">F</span>
+                </button>
+
+                <button class="tool" type="button" data-tool="picker" aria-pressed="false">
+                  <svg class="ico" viewBox="0 0 8 8" aria-hidden="true" focusable="false">
+                    <rect x="4" y="0" width="4" height="3" />
+                    <rect x="3" y="3" width="3" height="2" />
+                    <rect x="2" y="5" width="2" height="2" />
+                    <rect x="1" y="7" width="1" height="1" />
+                  </svg>
+                  <span class="tool__t">Picker</span>
+                  <span class="tool__k" aria-hidden="true">I</span>
+                </button>
+              </div>
+
+              <div class="grid-wrap">
+                <div class="frame frame--canvas">
+                  <canvas
+                    id="editor-canvas"
+                    width="16"
+                    height="16"
+                    tabindex="0"
+                    role="application"
+                    aria-label="Drawing grid, 16 by 16. Arrow keys move the cursor, Enter or Space paints, Backspace erases."
+                  ></canvas>
+                  <div class="gridlines" id="gridlines" aria-hidden="true"></div>
+                  <div class="kcursor" id="kcursor" aria-hidden="true" hidden></div>
+                </div>
+                <output class="sr-only" id="editor-status" aria-live="polite"></output>
+
+                <div class="stage__acts">
+                  <button class="btn" type="button" data-act="undo" disabled>Undo</button>
+                  <button class="btn" type="button" data-act="redo" disabled>Redo</button>
+                  <button class="btn" type="button" data-act="mirror">Mirror</button>
+                  <button class="btn" type="button" data-act="grid" aria-pressed="true">Grid</button>
+                  <button class="btn btn--warn" type="button" data-act="clear">Clear</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- side panel -->
+            <div class="side">
+              <section class="panel" aria-labelledby="pal-h">
+                <h3 class="panel__h" id="pal-h">Colours</h3>
+                <div class="palette" id="palette" role="radiogroup" aria-labelledby="pal-h"></div>
+                <p class="panel__note" id="palette-note"></p>
+              </section>
+
+              <section class="panel" aria-labelledby="prev-h">
+                <h3 class="panel__h" id="prev-h">Swim test</h3>
+                <div class="frame frame--preview">
+                  <canvas id="preview-canvas" width="88" height="52" role="img"
+                    aria-label="Live preview of your fish swimming at tank size"></canvas>
+                </div>
+              </section>
+
+              <section class="panel" aria-labelledby="tpl-h">
+                <h3 class="panel__h" id="tpl-h">Start from</h3>
+                <div class="templates" id="templates"></div>
+              </section>
+
+              <section class="panel panel--release" aria-labelledby="rel-h">
+                <h3 class="panel__h" id="rel-h">Name it</h3>
+                <label class="sr-only" for="fish-name">Fish name</label>
+                <input
+                  class="field"
+                  id="fish-name"
+                  type="text"
+                  maxlength="12"
+                  placeholder="BUBBLES"
+                  autocomplete="off"
+                  spellcheck="false"
+                />
+                <button class="btn btn--go" type="button" id="release">Release into tank</button>
+                <p class="panel__note" id="release-note"></p>
+              </section>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- ======================= fish info card ======================= -->
+    <div class="scrim" id="scrim" hidden>
+      <div
+        class="card"
+        id="fish-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="card-name"
+        hidden
+      >
+        <div class="card__head">
+          <div class="frame frame--chip">
+            <canvas id="card-portrait" width="16" height="16" role="img" aria-label="Fish sprite"></canvas>
+          </div>
+          <div>
+            <h2 class="card__name" id="card-name">Fish</h2>
+            <p class="card__meta" id="card-meta">Age 0 days</p>
+          </div>
+          <button class="card__x" type="button" data-close="card" aria-label="Close card">X</button>
+        </div>
+
+        <dl class="stats" id="card-stats"></dl>
+
+        <div class="card__acts">
+          <label class="sr-only" for="rename">New name</label>
+          <input class="field" id="rename" type="text" maxlength="12" autocomplete="off" />
+          <button class="btn" type="button" data-card="rename">Rename</button>
+          <button class="btn btn--warn" type="button" data-card="release">Set free</button>
+        </div>
+      </div>
+
+      <!-- ============================ shop ========================== -->
+      <div class="card card--shop" id="shop" role="dialog" aria-modal="true" aria-labelledby="shop-h" hidden>
+        <div class="card__head">
+          <h2 class="card__name" id="shop-h">Shop</h2>
+          <button class="card__x" type="button" data-close="shop" aria-label="Close shop">X</button>
+        </div>
+        <p class="card__meta" id="shop-purse">0 coins</p>
+
+        <div class="shop__tabs" role="tablist" aria-label="Shop sections">
+          <button class="shoptab" type="button" role="tab" aria-selected="true" data-shop="items">
+            Decorations
+          </button>
+          <button class="shoptab" type="button" role="tab" aria-selected="false" data-shop="colors">
+            Colours
+          </button>
+          <button class="shoptab" type="button" role="tab" aria-selected="false" data-shop="scenes">
+            Backdrops
+          </button>
+        </div>
+
+        <div class="shop__body" id="shop-body"></div>
+        <p class="card__meta" id="shop-note">Fish kept happy earn coins over time.</p>
+      </div>
+    </div>
+
+  </body>
+</html>
